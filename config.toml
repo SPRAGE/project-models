@@ -1,0 +1,6 @@
+[clickhouse]
+url = "127.0.0.1:9000"
+database = "finance_db"
+user = "admin"
+password = "securepass"
+
