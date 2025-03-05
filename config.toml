@@ -4,3 +4,13 @@ database = "finance_db"
 user = "admin"
 password = "securepass"
 
+
+[redis]
+host = "127.0.0.1"
+port = 6379
+user = "redis_user"
+password = "securepass"
+api_db = "1"
+greeks_db = "2"
+futures_db = "3"
+index_db = "4"

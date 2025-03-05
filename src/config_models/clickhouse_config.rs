@@ -1,7 +1,7 @@
-use serde::Deserialize;
+use serde::{Deserialize,Serialize};
 use crate::config_models::error::ClickHouseError;
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone,Serialize)]
 pub struct ClickHouseConfig {
     pub url: String,
     pub user: String,
