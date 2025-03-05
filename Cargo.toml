@@ -9,4 +9,6 @@ serde = { version = "1.0.218", features = ["derive"] }
 toml = "0.8.20"
 
 [dev-dependencies]
+ctor = "0.4.0"
 tempfile = "3.17.1"
+

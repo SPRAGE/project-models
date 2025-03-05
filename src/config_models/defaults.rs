@@ -1,10 +1,19 @@
 use serde::Serialize;
-use crate::config_models::{clickhouse_config::ClickHouseConfig, redis_config::RedisConfigData};
+use crate::config_models::{
+    clickhouse_config::ClickHouseConfig, 
+    redis_config::RedisConfigData, 
+    kafka_config::KafkaConfig,
+    zerodha_config::ZerodhaConfig,
+
+};
 
 #[derive(Debug, Serialize)]
 pub struct DefaultConfig {
     pub clickhouse: Option<ClickHouseConfig>,
     pub redis: Option<RedisConfigData>,
+    pub kafka: Option<KafkaConfig>,
+    pub zerodha: Option<ZerodhaConfig>,
+
 }
 
 impl Default for DefaultConfig {
@@ -12,6 +21,10 @@ impl Default for DefaultConfig {
         Self {
             clickhouse: Some(Self::default_clickhouse()),
             redis: Some(Self::default_redis()),
+            kafka: Some(Self::default_kafka()),
+            zerodha: Some(Self::default_zerodha()),
+
+
         }
     }
 }
@@ -40,5 +53,19 @@ impl DefaultConfig {
             index_db: Some("4".to_string()),
         }
     }
+    pub fn default_kafka() -> KafkaConfig {
+        KafkaConfig {
+            broker: "kafka_broker".to_string(),
+            tick_data_topic: "kafka_topic".to_string(),
+        }
+    }
+    pub fn default_zerodha() -> ZerodhaConfig {
+        ZerodhaConfig {
+            api_key: "API_KEY".to_string(),
+            api_secret: "API_SECRET".to_string(),
+            user_name: "USER_NAME".to_string(),
+        }
+    }   
+
 }
 

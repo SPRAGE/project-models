@@ -1,19 +1,27 @@
-use std::{fs, path::Path, sync::Mutex};
-use once_cell::sync::Lazy;
+use std::{fs, path::Path, sync::Arc};
+use once_cell::sync::OnceCell;
 use serde::{Deserialize, Serialize};
 
-use crate::config_models::{error::ConfigError, clickhouse_config::ClickHouseConfig, redis_config::RedisConfigData};
+use crate::config_models::{
+    error::ConfigError,
+    clickhouse_config::ClickHouseConfig,
+    redis_config::RedisConfigData,
+    kafka_config::KafkaConfig,
+    zerodha_config::ZerodhaConfig,
+};
 
-/// Global Lazy Config Instance (Thread-Safe)
-static CONFIG: Lazy<Mutex<Option<Config>>> = Lazy::new(|| Mutex::new(None));
+/// Global OnceCell holding the configuration wrapped in an Arc for shared access.
+static CONFIG: OnceCell<Arc<Config>> = OnceCell::new();
 
-#[derive(Debug, Deserialize, Serialize, Clone)]
+
+
+#[derive(Deserialize, Serialize, Clone)]
 pub struct Config {
-    #[serde(default)]
     pub clickhouse: Option<ClickHouseConfig>,
-
-    #[serde(default)]
     pub redis: Option<RedisConfigData>,
+    pub kafka: Option<KafkaConfig>,
+    pub zerodha: Option<ZerodhaConfig>,
+
 }
 
 impl Config {
@@ -25,16 +33,18 @@ impl Config {
         let parsed_config: Config = toml::from_str(&config_str)
             .map_err(|e| ConfigError::ParseError(format!("Invalid TOML format: {}", e)))?;
 
-        let mut config_lock = CONFIG.lock().unwrap();
-        *config_lock = Some(parsed_config);
-
-        Ok(())
+        // Try to set the global CONFIG. If already set, return an error.
+        CONFIG
+            .set(Arc::new(parsed_config))
+            .map_err(|_| ConfigError::AlreadyLoaded("Configuration is already loaded".to_string()))
     }
 
-    /// Returns the entire loaded configuration.
-    pub fn get() -> Result<Config, ConfigError> {
-        let config_lock = CONFIG.lock().unwrap();
-        config_lock.clone().ok_or_else(|| ConfigError::NotLoaded("Configuration not loaded".to_string()))
+    /// Returns a shared reference to the loaded configuration.
+    pub fn get() -> Result<Arc<Config>, ConfigError> {
+        CONFIG
+            .get()
+            .cloned()
+            .ok_or_else(|| ConfigError::NotLoaded("Configuration not loaded".to_string()))
     }
 }
 

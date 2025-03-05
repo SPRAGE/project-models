@@ -75,34 +75,15 @@ impl RedisConfig {
 
 #[derive(Debug, Deserialize, Clone, Serialize)]
 pub struct RedisConfigData {
-    #[serde(default)]  // ✅ Allows default empty string if missing
     pub host: String,
-    
-    #[serde(default)]
     pub port: u16,
-
-    #[serde(default)]
     pub read_user: String,
-    
-    #[serde(default)]
     pub read_password: String,
-    
-    #[serde(default)]
     pub write_user: String,
-    
-    #[serde(default)]
     pub write_password: String,
-
-    #[serde(default)]
     pub api_db: Option<String>,
-
-    #[serde(default)]
     pub greeks_db: Option<String>,
-
-    #[serde(default)]
     pub futures_db: Option<String>,
-
-    #[serde(default)]
     pub index_db: Option<String>,
 }
 

@@ -38,10 +38,9 @@ impl ClickHouseConfig {
 
     /// Generates a ClickHouse connection string
     pub fn connection_string(&self) -> String {
-        let password = self.password.as_deref().unwrap_or("");
         format!(
-            "tcp://{}:{}@{}?database={}",
-            self.user, password, self.url, self.database
+            "http://{}",
+            self.url
         )
     }
 }

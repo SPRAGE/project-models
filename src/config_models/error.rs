@@ -6,6 +6,7 @@ pub enum ConfigError {
     FileError(String),
     ParseError(String),
     NotLoaded(String),
+    AlreadyLoaded(String),
     MissingSection(String),
 }
 
@@ -15,6 +16,7 @@ impl fmt::Display for ConfigError {
             ConfigError::FileError(msg) => write!(f, "File Error: {}", msg),
             ConfigError::ParseError(msg) => write!(f, "Parse Error: {}", msg),
             ConfigError::NotLoaded(msg) => write!(f, "Config Not Loaded: {}", msg),
+            ConfigError::AlreadyLoaded(msg) => write!(f, "Configuration already loaded: {}", msg),
             ConfigError::MissingSection(msg) => write!(f, "Missing Section: {}", msg),
         }
     }
@@ -89,4 +91,19 @@ impl fmt::Display for RedisError {
 }
 
 impl std::error::Error for RedisError {}
+
+#[derive(Debug)]
+pub enum ZerodhaConfigError {
+    MissingCredentials,
+}
+
+impl std::fmt::Display for ZerodhaConfigError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            ZerodhaConfigError::MissingCredentials => write!(f, "Zerodha credentials are missing"),
+        }
+    }
+}
+
+impl std::error::Error for ZerodhaConfigError {}
 
