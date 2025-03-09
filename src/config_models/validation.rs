@@ -26,7 +26,7 @@ impl ConfigValidator {
         }
 
         // Finally, load the (fixed) config into the global OnceCell.
-        Config::load(path)?;
+        // Config::load(path)?;
         Ok(())
     }
 

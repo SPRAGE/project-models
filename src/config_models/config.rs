@@ -30,16 +30,16 @@ impl Config {
     /// **Initializes configuration by validating and loading the config file.**
     /// - If the config is missing or incomplete, it **automatically fixes it**.
     /// - Ensures **correct order of operations** (validation → fixing → loading).
-    pub fn init<P: AsRef<Path>>(config_path: P) -> Result<(), ConfigError> {
-        if let Err(ConfigError::AlreadyLoaded(_)) = ConfigValidator::validate_and_fix(&config_path) {
-            return Ok(()); // ✅ Ignore repeated loads instead of erroring
-        }
-        Config::load(&config_path)
-    }
     // pub fn init<P: AsRef<Path>>(config_path: P) -> Result<(), ConfigError> {
-    //     ConfigValidator::validate_and_fix(&config_path)?;
+    //     if let Err(ConfigError::AlreadyLoaded(_)) = ConfigValidator::validate_and_fix(&config_path) {
+    //         return Ok(()); // ✅ Ignore repeated loads instead of erroring
+    //     }
     //     Config::load(&config_path)
     // }
+    pub fn init<P: AsRef<Path>>(config_path: P) -> Result<(), ConfigError> {
+        ConfigValidator::validate_and_fix(&config_path)?;
+        Config::load(&config_path)
+    }
 
     /// **Loads the validated config into the global OnceCell**
     pub fn load<P: AsRef<Path>>(config_path: P) -> Result<(), ConfigError> {
