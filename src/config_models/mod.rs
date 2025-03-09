@@ -6,6 +6,8 @@ pub mod clickhouse_config;
 pub mod redis_config;
 pub mod kafka_config;
 pub mod zerodha_config;
+pub mod server;
+
 
 pub use config::Config;
 pub use validation::ConfigValidator;
@@ -14,4 +16,5 @@ pub use clickhouse_config::ClickHouseConfig;
 pub use redis_config::{RedisConfig, RedisConfigData, RedisDBType, RedisConnType};
 pub use kafka_config::KafkaConfig;
 pub use zerodha_config::ZerodhaConfig;
+pub use server::ServerConfig;
 

@@ -8,6 +8,7 @@ use crate::config_models::{
     redis_config::RedisConfigData,
     kafka_config::KafkaConfig,
     zerodha_config::ZerodhaConfig,
+    server::ServersConfig,
 };
 
 /// Global OnceCell holding the configuration wrapped in an Arc for shared access.
@@ -21,6 +22,7 @@ pub struct Config {
     pub redis: Option<RedisConfigData>,
     pub kafka: Option<KafkaConfig>,
     pub zerodha: Option<ZerodhaConfig>,
+    pub servers: Option<ServersConfig>,
 
 }
 
