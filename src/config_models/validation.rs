@@ -44,6 +44,12 @@ impl ConfigValidator {
         if config.zerodha.is_none() {
             return Err(ConfigError::MissingSection("Missing Zerodha configuration".to_string()));
         }
+        if config.servers.is_none() {
+            return Err(ConfigError::MissingSection("Missing Servers configuration".to_string()));
+        }
+        if config.ssl.is_none() {
+            return Err(ConfigError::MissingSection("Missing SSL configuration".to_string()));
+        }
         Ok(())
     }
 
@@ -77,6 +83,14 @@ impl ConfigValidator {
         if fixed_config.zerodha.is_none() {
             println!("⚠️ Adding missing Zerodha section...");
             fixed_config.zerodha = Some(DefaultConfig::default_zerodha());
+        }
+        if fixed_config.servers.is_none() {
+            println!("⚠️ Adding missing Servers section...");
+            fixed_config.servers = Some(DefaultConfig::default_servers());
+        }
+        if fixed_config.ssl.is_none() {
+            println!("⚠️ Adding missing SSL section...");
+            fixed_config.ssl = Some(DefaultConfig::default_ssl());
         }
 
         let toml_str = toml::to_string_pretty(&fixed_config)
