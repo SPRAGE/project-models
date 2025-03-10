@@ -1,1 +1,3 @@
 pub mod generic_data;
+pub mod instrument_data;
+pub mod hist_data;
