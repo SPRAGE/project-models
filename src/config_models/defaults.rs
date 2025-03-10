@@ -1,6 +1,6 @@
 use serde::Serialize;
 use crate::config_models::{
-    clickhouse_config::ClickHouseConfig, 
+    clickhouse_config::ReadClickHouseConfig, 
     redis_config::RedisConfigData, 
     kafka_config::KafkaConfig,
     zerodha_config::ZerodhaConfig,
@@ -10,7 +10,7 @@ use crate::config_models::{
 
 #[derive(Debug, Serialize)]
 pub struct DefaultConfig {
-    pub clickhouse: Option<ClickHouseConfig>,
+    pub clickhouse: Option<ReadClickHouseConfig>,
     pub redis: Option<RedisConfigData>,
     pub kafka: Option<KafkaConfig>,
     pub zerodha: Option<ZerodhaConfig>,
@@ -32,11 +32,13 @@ impl Default for DefaultConfig {
 }
 
 impl DefaultConfig {
-    pub fn default_clickhouse() -> ClickHouseConfig {
-        ClickHouseConfig {
+    pub fn default_clickhouse() -> ReadClickHouseConfig {
+        ReadClickHouseConfig {
             url: "127.0.0.1:9000".to_string(),
-            user: "default_user".to_string(),
-            password: Some("default_password".to_string()),
+            write_user: "default_user".to_string(),
+            write_password: Some("default_user_pass".to_string()),
+            read_user: "readonly_user".to_string(),
+            read_password: Some("readonlypass".to_string()),
             database: "default_db".to_string(),
         }
     }

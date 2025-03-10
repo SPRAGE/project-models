@@ -21,10 +21,10 @@ impl ClickHouseConfig {
         let clickhouse_config = config.clickhouse.clone().ok_or(ClickHouseError::SectionMissing)?;
 
         let (user, password) = match user_type {
-            ClickHouseUserType::Read => (clickhouse_config.user, None), // Read user doesn't need a password
+            ClickHouseUserType::Read => (clickhouse_config.read_user, None), // Read user doesn't need a password
             ClickHouseUserType::Write => (
-                clickhouse_config.user,
-                Some(clickhouse_config.password.clone().ok_or(ClickHouseError::MissingPassword)?),
+                clickhouse_config.write_user,
+                Some(clickhouse_config.write_password.clone().ok_or(ClickHouseError::MissingPassword)?),
             ),
         };
 
@@ -43,5 +43,14 @@ impl ClickHouseConfig {
             self.url
         )
     }
+}
+#[derive(Debug, Deserialize, Clone,Serialize)]
+pub struct ReadClickHouseConfig {
+    pub url: String,
+    pub write_user: String,
+    pub write_password: Option<String>,
+    pub read_user: String,
+    pub read_password: Option<String>,
+    pub database: String,
 }
 

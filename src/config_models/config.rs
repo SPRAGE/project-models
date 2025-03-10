@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::config_models::{
     error::ConfigError,
-    clickhouse_config::ClickHouseConfig,
+    clickhouse_config::ReadClickHouseConfig,
     redis_config::RedisConfigData,
     kafka_config::KafkaConfig,
     zerodha_config::ZerodhaConfig,
@@ -18,7 +18,7 @@ static CONFIG: OnceCell<Arc<Config>> = OnceCell::new();
 
 #[derive(Deserialize, Serialize, Clone)]
 pub struct Config {
-    pub clickhouse: Option<ClickHouseConfig>,
+    pub clickhouse: Option<ReadClickHouseConfig>,
     pub redis: Option<RedisConfigData>,
     pub kafka: Option<KafkaConfig>,
     pub zerodha: Option<ZerodhaConfig>,
