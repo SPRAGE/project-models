@@ -11,19 +11,19 @@ use time::macros::format_description;
 
 #[derive(Debug, clickhouse::Row, serde::Serialize, serde::Deserialize)]
 pub struct Instrument {
-    pub exchange: Exchange,
+    pub instrument_token: String,
     pub exchange_token: String,
+    pub tradingsymbol: String,
+    pub name: Option<String>,
+    pub last_price: f64,
     #[serde(with = "clickhouse::serde::time::date::option")]
     pub expiry: Option<Date>,
-    pub instrument_token: String,
-    pub instrument_type: InstrumentType,
-    pub last_price: f64,
-    pub lot_size: u32,
-    pub name: Option<String>,
-    pub segment: Segment,
     pub strike: f64,
     pub tick_size: f64,
-    pub tradingsymbol: String,
+    pub lot_size: u32,
+    pub exchange: Exchange,
+    pub segment: Segment,
+    pub instrument_type: InstrumentType,
     pub base_exchange: BaseExchange,
 }
 
