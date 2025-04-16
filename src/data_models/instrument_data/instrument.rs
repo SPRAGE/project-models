@@ -7,8 +7,6 @@ use serde_json::Value;
 use std::error::Error;
 use time::macros::format_description;
 
-
-
 #[derive(Debug, clickhouse::Row, serde::Serialize, serde::Deserialize)]
 pub struct Instrument {
     pub instrument_token: String,
@@ -26,7 +24,6 @@ pub struct Instrument {
     pub instrument_type: InstrumentType,
     pub base_exchange: BaseExchange,
 }
-
 
 impl Instrument {
     /// Creates an `Instrument` instance from a JSON `Value`.
@@ -99,6 +96,7 @@ impl Instrument {
                 "NIFTY MIDCAP SELECT (MIDCPNIFTY)" => "MIDCPNIFTY".to_string(),
                 "NIFTY NEXT 50" => "NIFTYNXT50".to_string(),
                 "NIFTY FIN SERVICE" => "FINNIFTY".to_string(),
+                "BSE INDEX BANKEX" => "BANKEX".to_string(),
                 _ => s.to_string(),
             }),
 
@@ -151,6 +149,3 @@ impl Instrument {
         })
     }
 }
-
-
-
