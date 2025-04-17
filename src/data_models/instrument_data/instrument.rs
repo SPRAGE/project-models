@@ -120,8 +120,15 @@ impl Instrument {
                 _ => return Err("Invalid or missing `segment` value".into()),
             },
 
-            strike: item.get("strike").and_then(|v| v.as_f64()).unwrap_or(0.0),
-
+            strike: item.get("strike").and_then(|v| {
+                if let Some(f) = v.as_f64() {
+                    Some(f)
+                } else if let Some(s) = v.as_str() {
+                    s.parse::<f64>().ok()
+                } else {
+                    None
+                }
+            }).unwrap_or(0.0),
             tick_size: item
                 .get("tick_size")
                 .and_then(|v| v.as_f64())
