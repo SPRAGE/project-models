@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-clickhouse = { version = "0.13.1", features = ["time"] }
+chrono = "0.4.40"
+clickhouse = { version = "0.13.2", features = ["chrono"] }
 kiteticker-async = { git = "https://github.com/SPRAGE/kiteticker-async", branch = "serialize", version = "0.1.1" }
 once_cell = "1.20.3"
 redis = "0.29.1"

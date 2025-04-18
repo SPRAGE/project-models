@@ -2,10 +2,9 @@ use crate::data_models::instrument_data::Exchange;
 use crate::data_models::instrument_data::InstrumentType;
 use crate::data_models::instrument_data::Segment;
 use crate::data_models::instrument_data::BaseExchange;
-use time::Date;
+use chrono::NaiveDate;
 use serde_json::Value;
 use std::error::Error;
-use time::macros::format_description;
 
 #[derive(Debug, clickhouse::Row, serde::Serialize, serde::Deserialize)]
 pub struct Instrument {
@@ -14,8 +13,8 @@ pub struct Instrument {
     pub tradingsymbol: String,
     pub name: Option<String>,
     pub last_price: f64,
-    #[serde(with = "clickhouse::serde::time::date::option")]
-    pub expiry: Option<Date>,
+    #[serde(with = "clickhouse::serde::chrono::date::option")]
+    pub expiry: Option<NaiveDate>,
     pub strike: f64,
     pub tick_size: f64,
     pub lot_size: u32,
@@ -28,7 +27,7 @@ pub struct Instrument {
 impl Instrument {
     /// Creates an `Instrument` instance from a JSON `Value`.
     pub fn from_json(item: &Value) -> Result<Self, Box<dyn Error>> {
-        let format = format_description!("[year]-[month]-[day]");
+        let format = "%Y-%m-%d";
 
         Ok(Instrument {
             exchange: match item.get("exchange").and_then(|v| v.as_str()) {
@@ -53,7 +52,7 @@ impl Instrument {
 
             expiry: item.get("expiry").and_then(|v| v.as_str()).and_then(|s| {
                 if !s.is_empty() {
-                    Date::parse(s, &format).ok()
+                    NaiveDate::parse_from_str(s, &format).ok()
                 } else {
                     None
                 }

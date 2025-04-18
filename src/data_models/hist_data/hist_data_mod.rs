@@ -1,4 +1,4 @@
-use time::OffsetDateTime;
+use chrono::{DateTime, Utc};
 use crate::data_models::hist_data::Interval;
 
 #[derive(Debug, clickhouse::Row, serde::Serialize, serde::Deserialize)]
@@ -9,8 +9,9 @@ pub struct HistData {
     pub low: f64,
     pub close: f64,
     pub volume: u64,
-    #[serde(with = "clickhouse::serde::time::datetime")]
-    pub datetime: OffsetDateTime,
+
+    #[serde(with = "clickhouse::serde::chrono::datetime")]
+    pub date_time: DateTime<Utc>, // field name fixed, type corrected
+
     pub interval: Interval,
 }
-

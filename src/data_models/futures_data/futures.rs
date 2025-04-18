@@ -1,5 +1,6 @@
 use crate::data_models::instrument_data::BaseExchange;
 use crate::data_models::futures_data::FutureType;
+use chrono::NaiveDate;
 
 #[derive(Debug, clickhouse::Row)]
 #[derive(serde::Serialize)]
@@ -9,7 +10,8 @@ use crate::data_models::futures_data::FutureType;
 pub struct FuturesData {
     pub base_exchange: BaseExchange,
     pub name: String,
-    pub expiry: u16,
+    #[serde(with = "clickhouse::serde::chrono::date")]
+    pub expiry: NaiveDate,
     pub dte: u16,
     pub future_type: FutureType,
     pub underlying: u64,
