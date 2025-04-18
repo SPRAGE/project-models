@@ -11,7 +11,7 @@ pub struct HistData {
     pub volume: u64,
 
     #[serde(with = "clickhouse::serde::chrono::datetime")]
-    pub date_time: DateTime<Utc>, // field name fixed, type corrected
+    pub datetime: DateTime<Utc>, // field name fixed, type corrected
 
     pub interval: Interval,
 }
