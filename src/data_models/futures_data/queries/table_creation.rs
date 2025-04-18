@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS futures_staging
     future_type Enum8('atm' = 1, 'add_to_base' = 2, 'liquid' = 3),
     underlying UInt64,
     base_expiry Date,
-    add_to_base UInt8,
+    add_to_base Float64,
     strike Array(Float64)
 ) ENGINE = MergeTree()
 ORDER BY (base_exchange, name, expiry);
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS futures
     future_type Enum8('atm' = 1, 'add_to_base' = 2, 'liquid' = 3),
     underlying UInt64,
     base_expiry Date,
-    add_to_base UInt8,
+    add_to_base Float64,
     strike Array(Float64)
 ) ENGINE = MergeTree()
 ORDER BY (base_exchange, name, expiry);
