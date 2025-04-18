@@ -44,6 +44,6 @@ FROM (
 LEFT JOIN futures AS existing
 ON f.base_exchange = existing.base_exchange
    AND f.name = existing.name
-   AND f.expiry = existing.expiry;
+   AND f.expiry = existing.expiry
    AND f.base_expiry = existing.base_expiry
 "#;
