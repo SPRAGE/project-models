@@ -1,6 +1,10 @@
 
 #[derive(Debug, serde_repr::Serialize_repr, serde_repr::Deserialize_repr)]
+
+#[derive(Clone)]
+#[derive(PartialEq)]
 #[repr(i8)]
+
 pub enum BaseExchange {
     Bse = 0,
     Mcx = 1,

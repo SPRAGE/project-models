@@ -1,7 +1,8 @@
+
 pub static CREATE_FUTURES_STAGING_TABLE:&str = r#"
 CREATE TABLE IF NOT EXISTS futures_staging
 (
-    base_exchange String,
+    base_exchange Enum8('Bse' = 0, 'Mcx' = 1, 'Nse' = 2, 'Nseix' = 3, 'Global' = 4),
     name String,
     expiry Date,
     dte UInt16,
@@ -17,7 +18,7 @@ ORDER BY (base_exchange, name, expiry);
 pub static CREATE_FUTURES_TABLE:&str = r#"
 CREATE TABLE IF NOT EXISTS futures
 (
-    base_exchange String,
+    base_exchange Enum8('Bse' = 0, 'Mcx' = 1, 'Nse' = 2, 'Nseix' = 3, 'Global' = 4),
     name String,
     expiry Date,
     dte UInt16,

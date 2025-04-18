@@ -79,18 +79,28 @@
 
         # DevShell for interactive development
         devShells.default = pkgs.mkShell {
+          buildInputs = [
+            fenix.packages.${system}.stable.rust
+          ];
           packages = with pkgs; [
+            toolchain
             openssl
-            cargo
+            pkg-config
+            protobuf
             rustc
+            cargo
+            rust-analyzer
           ];
 
+          RUST_SRC_PATH = "${fenix.packages.${system}.stable.rust.src}";
+
           shellHook = ''
-            export OPENSSL_DIR="${opensslStatic}"
-            export OPENSSL_LIB_DIR="${opensslStatic.out}/lib"
-            export OPENSSL_INCLUDE_DIR="${opensslStatic.dev}/include"
-            export PKG_CONFIG_PATH="${opensslStatic.dev}/lib/pkgconfig"
-            export PS1="(rust-musl-openssl) $PS1"
+            export OPENSSL_DIR="${pkgs.openssl.dev}"
+            export OPENSSL_LIB_DIR="${pkgs.openssl.out}/lib"
+            export OPENSSL_INCLUDE_DIR="${pkgs.openssl.dev}/include"
+            export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig"
+            export LD_LIBRARY_PATH="${pkgs.openssl.out}/lib"
+            export PS1="(rust-dev) $PS1"
           '';
         };
       }
