@@ -17,7 +17,7 @@ FROM (
         enriched.expiry,
         abs(toRelativeDayNum(enriched.expiry) - toRelativeDayNum(now())) AS dte,
         CASE
-            WHEN has(enriched.instrument_type, 'Fut') THEN 'liquid'
+            WHEN has(enriched.instrument_types, 'Fut') THEN 'liquid'
             WHEN abs(toRelativeDayNum(enriched.expiry) - toRelativeDayNum(now())) > 30 THEN 'add_to_base'
             ELSE 'atm'
         END AS future_type,
