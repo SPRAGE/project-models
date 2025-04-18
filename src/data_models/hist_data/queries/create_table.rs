@@ -1,5 +1,5 @@
 pub static CREATE_HIST_DATA_TABLE:&str = r#"
-CREATE TABLE IF NOT EXISTS hist_data
+CREATE TABLE IF NOT EXISTS historical_data
 (
     tradingsymbol String,
     open Float64,
