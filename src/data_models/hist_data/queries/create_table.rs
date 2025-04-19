@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS historical_data_max_datetime (
             'ThirtyMinute' = 6,
             'SixtyMinute' = 7
         )
-        max_ts DateTime('Asia/Kolkata'),
+        max_ts DateTime,
 )
 ENGINE = ReplacingMergeTree
 ORDER BY instrument_token;
