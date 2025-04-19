@@ -26,12 +26,20 @@ ORDER BY (tradingsymbol, interval, datetime)
 
 pub static CREATE_MAX_DATETIME_HIST_DATA_TABLE:&str = r#"
 CREATE TABLE IF NOT EXISTS historical_data_max_datetime (
-        instrument_token UInt64,
-        name String,
-        segment String,
+        tradingsymbol String,
+        instrument_token String,
+        interval Enum8(
+            'Day' = 0,
+            'Minute' = 1,
+            'ThreeMinute' = 2,
+            'FiveMinute' = 3,
+            'TenMinute' = 4,
+            'FifteenMinute' = 5,
+            'ThirtyMinute' = 6,
+            'SixtyMinute' = 7
+        )
         max_ts DateTime('Asia/Kolkata'),
-        version UInt64 DEFAULT toUnixTimestamp(now())  -- optional but helps merge logic
 )
-ENGINE = ReplacingMergeTree(version)
+ENGINE = ReplacingMergeTree
 ORDER BY instrument_token;
 "#;
