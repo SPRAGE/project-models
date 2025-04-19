@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS historical_data_max_datetime (
         segment String,
         max_ts DateTime('Asia/Kolkata'),
         version UInt64 DEFAULT toUnixTimestamp(now())  -- optional but helps merge logic
-) ENGINE = ReplacingMergeTree(version)
-        ORDER BY instrument_token;
 )
+ENGINE = ReplacingMergeTree(version)
+ORDER BY instrument_token;
 "#;
