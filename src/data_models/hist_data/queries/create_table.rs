@@ -23,3 +23,15 @@ ENGINE = ReplacingMergeTree
 PARTITION BY (tradingsymbol, interval)
 ORDER BY (tradingsymbol, interval, datetime)
 "#;
+
+pub static CREATE_MAX_DATETIME_HIST_DATA_TABLE:&str = r#"
+CREATE TABLE IF NOT EXISTS historical_data_max_datetime (
+        instrument_token UInt64,
+        name String,
+        segment String,
+        max_ts DateTime('Asia/Kolkata'),
+        version UInt64 DEFAULT toUnixTimestamp(now())  -- optional but helps merge logic
+) ENGINE = ReplacingMergeTree(version)
+        ORDER BY instrument_token;
+)
+"#;
