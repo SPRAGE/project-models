@@ -41,5 +41,5 @@ CREATE TABLE IF NOT EXISTS historical_data_max_datetime (
         max_datetime DateTime('Asia/Kolkata'),
 )
 ENGINE = ReplacingMergeTree
-ORDER BY instrument_token;
+ORDER BY (instrument_token,interval);
 "#;
